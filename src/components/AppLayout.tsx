@@ -1,23 +1,11 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { useAuth } from "@/hooks/useAuth";
 import { Heart, Sun, Moon } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-
-function MobileMenuButton() {
-  const { toggleSidebar } = useSidebar();
-  return (
-    <button
-      onClick={toggleSidebar}
-      className="md:hidden mr-2 w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition"
-    >
-      <Heart className="w-5 h-5 text-primary fill-primary/40" strokeWidth={1.5} />
-    </button>
-  );
-}
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
@@ -39,7 +27,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
           <header className="h-14 flex items-center px-4 border-b border-border/60 bg-background/70 backdrop-blur-sm sticky top-0 z-10">
-            <MobileMenuButton />
+            <SidebarTrigger className="md:hidden mr-2" />
             <span className="font-script text-primary text-2xl">Lembre-se de que te amo muito.</span>
             <div className="flex-1" />
             <button
