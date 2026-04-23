@@ -61,33 +61,33 @@
   }
 
   .dark {
-    --background: 20 18% 10%;
-    --foreground: 36 30% 92%;
-    --card: 20 20% 14%;
-    --card-foreground: 36 30% 92%;
-    --popover: 20 20% 14%;
-    --popover-foreground: 36 30% 92%;
-    --primary: 12 55% 60%;
-    --primary-foreground: 20 18% 10%;
-    --secondary: 20 15% 20%;
-    --secondary-foreground: 36 30% 92%;
-    --muted: 20 15% 18%;
-    --muted-foreground: 30 15% 65%;
-    --accent: 350 40% 60%;
-    --accent-foreground: 36 30% 92%;
+    --background: 340 22% 9%;
+    --foreground: 350 25% 92%;
+    --card: 340 20% 13%;
+    --card-foreground: 350 25% 92%;
+    --popover: 340 20% 13%;
+    --popover-foreground: 350 25% 92%;
+    --primary: 350 55% 65%;
+    --primary-foreground: 340 22% 9%;
+    --secondary: 340 16% 19%;
+    --secondary-foreground: 350 25% 92%;
+    --muted: 340 16% 16%;
+    --muted-foreground: 340 14% 62%;
+    --accent: 340 45% 55%;
+    --accent-foreground: 350 25% 92%;
     --destructive: 0 55% 45%;
-    --destructive-foreground: 36 30% 92%;
-    --border: 20 15% 25%;
-    --input: 20 15% 22%;
-    --ring: 12 55% 60%;
-    --sidebar-background: 20 20% 12%;
-    --sidebar-foreground: 36 30% 88%;
-    --sidebar-primary: 12 55% 60%;
-    --sidebar-primary-foreground: 20 18% 10%;
-    --sidebar-accent: 20 15% 18%;
-    --sidebar-accent-foreground: 36 30% 92%;
-    --sidebar-border: 20 15% 22%;
-    --sidebar-ring: 12 55% 60%;
+    --destructive-foreground: 350 25% 92%;
+    --border: 340 16% 24%;
+    --input: 340 16% 20%;
+    --ring: 350 55% 65%;
+    --sidebar-background: 340 22% 11%;
+    --sidebar-foreground: 350 22% 88%;
+    --sidebar-primary: 350 55% 65%;
+    --sidebar-primary-foreground: 340 22% 9%;
+    --sidebar-accent: 340 16% 17%;
+    --sidebar-accent-foreground: 350 25% 92%;
+    --sidebar-border: 340 16% 20%;
+    --sidebar-ring: 350 55% 65%;
   }
 }
 
@@ -100,6 +100,13 @@
       radial-gradient(at 20% 10%, hsl(350 45% 88% / 0.4) 0px, transparent 50%),
       radial-gradient(at 80% 80%, hsl(38 55% 80% / 0.35) 0px, transparent 50%),
       radial-gradient(at 50% 50%, hsl(30 30% 92% / 0.3) 0px, transparent 50%);
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(at 20% 10%, hsl(350 40% 20% / 0.5) 0px, transparent 50%),
+      radial-gradient(at 80% 80%, hsl(330 30% 16% / 0.45) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, hsl(340 22% 12% / 0.3) 0px, transparent 50%);
   }
   h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; letter-spacing: -0.01em; }
 }
@@ -117,6 +124,10 @@
     @apply bg-card rounded-sm border border-border/60;
     box-shadow: var(--shadow-soft);
     background-image: linear-gradient(180deg, hsl(36 40% 96%) 0%, hsl(36 35% 93%) 100%);
+  }
+
+  .dark .paper-card {
+    background-image: linear-gradient(180deg, hsl(340 20% 14%) 0%, hsl(340 18% 11%) 100%);
   }
 
   .ink-divider {

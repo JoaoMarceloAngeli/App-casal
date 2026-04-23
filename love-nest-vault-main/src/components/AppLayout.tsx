@@ -1,13 +1,15 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart } from "lucide-react";
+import { Heart, Sun, Moon } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
+  const { theme, setTheme } = useTheme();
 
   if (loading) {
     return (
@@ -24,9 +26,18 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       <div className="min-h-screen flex w-full">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="h-12 flex items-center border-b border-border/60 bg-background/70 backdrop-blur-sm sticky top-0 z-10">
-            <SidebarTrigger className="ml-2" />
+          <header className="h-14 flex items-center px-4 border-b border-border/60 bg-background/70 backdrop-blur-sm sticky top-0 z-10">
+            <span className="font-script text-primary text-2xl">Lembre-se de que te amo muito.</span>
             <div className="flex-1" />
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="p-2 rounded-full hover:bg-muted transition"
+              title={theme === "dark" ? "Modo claro" : "Modo escuro"}
+            >
+              {theme === "dark"
+                ? <Sun className="w-4 h-4 text-muted-foreground" />
+                : <Moon className="w-4 h-4 text-muted-foreground" />}
+            </button>
           </header>
           <motion.main
             key={location.pathname}

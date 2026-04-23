@@ -20,7 +20,7 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, toggleSidebar } = useSidebar();
   const { profile, signOut } = useAuth();
   const collapsed = state === "collapsed";
   const location = useLocation();
@@ -29,9 +29,13 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
         <div className={`flex items-center gap-3 p-2 ${collapsed ? "justify-center" : ""}`}>
-          <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+          <button
+            onClick={toggleSidebar}
+            className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 hover:bg-primary/20 transition"
+            title={collapsed ? "Abrir menu" : "Fechar menu"}
+          >
             <Heart className="w-5 h-5 text-primary fill-primary/40" strokeWidth={1.5} />
-          </div>
+          </button>
           {!collapsed && (
             <div className="flex flex-col">
               <span className="font-display text-lg leading-tight">Nosso Cantinho</span>
