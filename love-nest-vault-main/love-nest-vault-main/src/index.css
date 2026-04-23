@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Vintage / polaroid romantic design system */
+
+@layer base {
+  :root {
+    /* Warm vintage palette */
+    --background: 36 33% 95%;          /* warm cream */
+    --foreground: 20 25% 18%;          /* deep sepia */
+
+    --card: 36 38% 97%;
+    --card-foreground: 20 25% 18%;
+
+    --popover: 36 38% 97%;
+    --popover-foreground: 20 25% 18%;
+
+    --primary: 12 45% 42%;             /* terracotta */
+    --primary-foreground: 36 38% 97%;
+
+    --secondary: 30 30% 88%;           /* soft beige */
+    --secondary-foreground: 20 25% 18%;
+
+    --muted: 32 22% 90%;
+    --muted-foreground: 22 15% 42%;
+
+    --accent: 350 35% 70%;             /* dusty rose */
+    --accent-foreground: 20 30% 15%;
+
+    --gold: 38 55% 55%;
+    --rose: 350 45% 65%;
+    --sepia: 25 35% 30%;
+    --paper: 36 40% 94%;
+
+    --destructive: 0 55% 50%;
+    --destructive-foreground: 36 38% 97%;
+
+    --border: 30 22% 80%;
+    --input: 30 22% 85%;
+    --ring: 12 45% 42%;
+
+    --radius: 0.25rem;
+
+    --shadow-polaroid: 0 10px 30px -10px hsl(20 30% 15% / 0.25), 0 2px 6px hsl(20 30% 15% / 0.1);
+    --shadow-soft: 0 4px 20px -4px hsl(20 30% 15% / 0.12);
+    --shadow-deep: 0 20px 50px -20px hsl(20 30% 15% / 0.4);
+    --gradient-warm: linear-gradient(135deg, hsl(36 38% 97%) 0%, hsl(30 30% 88%) 100%);
+    --gradient-rose: linear-gradient(135deg, hsl(350 45% 75%) 0%, hsl(12 45% 55%) 100%);
+
+    --sidebar-background: 32 28% 92%;
+    --sidebar-foreground: 20 25% 22%;
+    --sidebar-primary: 12 45% 42%;
+    --sidebar-primary-foreground: 36 38% 97%;
+    --sidebar-accent: 30 30% 86%;
+    --sidebar-accent-foreground: 20 25% 18%;
+    --sidebar-border: 30 22% 78%;
+    --sidebar-ring: 12 45% 42%;
+  }
+
+  .dark {
+    --background: 20 18% 10%;
+    --foreground: 36 30% 92%;
+    --card: 20 20% 14%;
+    --card-foreground: 36 30% 92%;
+    --popover: 20 20% 14%;
+    --popover-foreground: 36 30% 92%;
+    --primary: 12 55% 60%;
+    --primary-foreground: 20 18% 10%;
+    --secondary: 20 15% 20%;
+    --secondary-foreground: 36 30% 92%;
+    --muted: 20 15% 18%;
+    --muted-foreground: 30 15% 65%;
+    --accent: 350 40% 60%;
+    --accent-foreground: 36 30% 92%;
+    --destructive: 0 55% 45%;
+    --destructive-foreground: 36 30% 92%;
+    --border: 20 15% 25%;
+    --input: 20 15% 22%;
+    --ring: 12 55% 60%;
+    --sidebar-background: 20 20% 12%;
+    --sidebar-foreground: 36 30% 88%;
+    --sidebar-primary: 12 55% 60%;
+    --sidebar-primary-foreground: 20 18% 10%;
+    --sidebar-accent: 20 15% 18%;
+    --sidebar-accent-foreground: 36 30% 92%;
+    --sidebar-border: 20 15% 22%;
+    --sidebar-ring: 12 55% 60%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    background-image:
+      radial-gradient(at 20% 10%, hsl(350 45% 88% / 0.4) 0px, transparent 50%),
+      radial-gradient(at 80% 80%, hsl(38 55% 80% / 0.35) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, hsl(30 30% 92% / 0.3) 0px, transparent 50%);
+  }
+  h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; letter-spacing: -0.01em; }
+}
+
+@layer components {
+  .font-script { font-family: 'Caveat', cursive; }
+  .font-display { font-family: 'Cormorant Garamond', serif; }
+
+  .polaroid {
+    @apply bg-[hsl(var(--paper))] p-3 pb-12 relative;
+    box-shadow: var(--shadow-polaroid);
+  }
+
+  .paper-card {
+    @apply bg-card rounded-sm border border-border/60;
+    box-shadow: var(--shadow-soft);
+    background-image: linear-gradient(180deg, hsl(36 40% 96%) 0%, hsl(36 35% 93%) 100%);
+  }
+
+  .ink-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--sepia) / 0.3), transparent);
+  }
+
+  .vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 80px hsl(20 30% 15% / 0.15);
+  }
+}
+
+@layer utilities {
+  .rotate-tilt-1 { transform: rotate(-1.5deg); }
+  .rotate-tilt-2 { transform: rotate(1.2deg); }
+  .rotate-tilt-3 { transform: rotate(-0.7deg); }
+  .text-gold { color: hsl(var(--gold)); }
+  .bg-paper { background-color: hsl(var(--paper)); }
+}
