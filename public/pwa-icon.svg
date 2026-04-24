@@ -1,5 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#F6F3EE"/>
-  <path d="M256 400C256 400 88 295 88 178C88 126 126 90 174 90C210 90 241 110 256 138C271 110 302 90 338 90C386 90 424 126 424 178C424 295 256 400 256 400Z" fill="#9B4E3B"/>
-  <path d="M256 375C256 375 108 278 108 178C108 137 138 110 174 110C207 110 235 129 256 160C277 129 305 110 338 110C374 110 404 137 404 178C404 278 256 375 256 375Z" fill="#B85A45"/>
+  <defs>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="50%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#f472b6"/>
+    </linearGradient>
+  </defs>
+  <!-- Fundo branco com cantos arredondados -->
+  <rect width="512" height="512" rx="96" fill="#ffffff"/>
+  <!-- Coração azul e rosa -->
+  <path d="M256 400C256 400 80 288 80 172C80 118 120 80 172 80C210 80 242 102 256 134C270 102 302 80 340 80C392 80 432 118 432 172C432 288 256 400 256 400Z" fill="url(#heartGrad)"/>
 </svg>
