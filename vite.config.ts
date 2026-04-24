@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => ({
     VitePWA({
       registerType: "autoUpdate",
       base: "/App-casal/",
-      includeAssets: ["favicon.ico", "favicon.svg", "pwa-icon.svg"],
+      includeAssets: ["favicon.ico", "favicon.svg", "pwa-192.png", "pwa-512.png"],
       manifest: {
         name: "Nosso Cantinho",
         short_name: "Nosso Cantinho",
@@ -34,20 +34,20 @@ export default defineConfig(({ mode }) => ({
         id: "/App-casal/",
         icons: [
           {
-            src: "pwa-icon.svg",
+            src: "pwa-192.png",
             sizes: "192x192",
-            type: "image/svg+xml",
+            type: "image/png",
           },
           {
-            src: "pwa-icon.svg",
+            src: "pwa-512.png",
             sizes: "512x512",
-            type: "image/svg+xml",
+            type: "image/png",
             purpose: "any",
           },
           {
-            src: "pwa-icon.svg",
+            src: "pwa-512.png",
             sizes: "512x512",
-            type: "image/svg+xml",
+            type: "image/png",
             purpose: "maskable",
           },
         ],
