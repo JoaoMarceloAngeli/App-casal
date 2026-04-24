@@ -20,10 +20,14 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const { state, toggleSidebar } = useSidebar();
+  const { state, toggleSidebar, isMobile, setOpenMobile } = useSidebar();
   const { profile, signOut } = useAuth();
   const collapsed = state === "collapsed";
   const location = useLocation();
+
+  function handleNavClick() {
+    if (isMobile) setOpenMobile(false);
+  }
 
   return (
     <Sidebar collapsible="icon">
@@ -53,7 +57,7 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild isActive={location.pathname === item.url}>
-                    <NavLink to={item.url} end>
+                    <NavLink to={item.url} end onClick={handleNavClick}>
                       <item.icon className="w-4 h-4" />
                       {!collapsed && <span className="font-display text-base">{item.title}</span>}
                     </NavLink>
