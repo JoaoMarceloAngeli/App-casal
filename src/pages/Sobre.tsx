@@ -10,6 +10,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 interface Profile {
   id: string;
@@ -37,20 +38,21 @@ interface EditTopic {
 const DB_FIELDS = ["bio", "likes", "preferences", "important_info"] as const;
 type FieldKey = typeof DB_FIELDS[number];
 
-const defaultLabels: Record<FieldKey, string> = {
-  bio: "Sobre",
-  likes: "Gostos",
-  preferences: "Preferências",
-  important_info: "Coisas importantes",
-};
-
 const labelsKey = (uid: string) => `sobre-labels-${uid}`;
 const hiddenKey = (uid: string) => `sobre-hidden-${uid}`;
 const extraKey = (uid: string) => `sobre-extra-${uid}`;
 
 export default function Sobre() {
   const { user, refreshProfile } = useAuth();
+  const { t } = useTranslation();
   const [profiles, setProfiles] = useState<Profile[]>([]);
+
+  const defaultLabels: Record<FieldKey, string> = {
+    bio: t("about.defaultLabels.bio", "Sobre"),
+    likes: t("about.defaultLabels.likes", "Gostos"),
+    preferences: t("about.defaultLabels.preferences", "Preferências"),
+    important_info: t("about.defaultLabels.important_info", "Coisas importantes"),
+  };
 
   const [editing, setEditing] = useState<Profile | null>(null);
   const [editTopics, setEditTopics] = useState<EditTopic[]>([]);
@@ -137,7 +139,7 @@ export default function Sobre() {
     } else {
       setEditTopics(prev => [...prev, {
         id: `extra-${Date.now()}`,
-        label: "Novo tópico",
+        label: t("about.newTopic"),
         content: "",
         dbKey: undefined,
       }]);
@@ -178,7 +180,7 @@ export default function Sobre() {
     localStorage.setItem(hiddenKey(editing.id), JSON.stringify([...newHidden]));
     localStorage.setItem(extraKey(editing.id), JSON.stringify(newExtra));
 
-    toast.success("Salvo ❤");
+    toast.success(t("about.saved"));
     setEditing(null);
     refreshProfile();
     load();
@@ -194,14 +196,14 @@ export default function Sobre() {
     if (error) return toast.error(error.message);
     const url = supabase.storage.from("avatars").getPublicUrl(path).data.publicUrl;
     await supabase.from("profiles").update({ avatar_url: url }).eq("id", myProfileId);
-    toast.success("Foto atualizada ❤");
+    toast.success(t("about.photoUpdated"));
     refreshProfile();
     load();
   };
 
   const removeAvatar = async (profileId: string) => {
     await supabase.from("profiles").update({ avatar_url: null }).eq("id", profileId);
-    toast.success("Foto removida");
+    toast.success(t("about.photoRemoved"));
     refreshProfile();
     load();
   };
@@ -211,12 +213,12 @@ export default function Sobre() {
     setLabelsByProfile({ ...labelsByProfile, [pid]: next });
     localStorage.setItem(labelsKey(pid), JSON.stringify(next));
     setEditingLabel(null);
-    toast.success("Tópico renomeado ❤");
+    toast.success(t("about.topicRenamed"));
   };
 
   return (
     <div className="max-w-5xl mx-auto">
-      <PageHeader title="Sobre Nós" subtitle="quem somos, o que amamos" />
+      <PageHeader title={t("about.title")} subtitle={t("about.subtitle")} />
 
       <div className="grid md:grid-cols-2 gap-6">
         {profiles.map((p, i) => {
@@ -251,21 +253,21 @@ export default function Sobre() {
                         <DropdownMenuTrigger asChild>
                           <button
                             className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground p-1.5 rounded-full hover:scale-110 transition"
-                            title="Editar foto"
+                            title={t("about.editPhoto")}
                           >
                             <Pencil className="w-3 h-3" />
                           </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent side="bottom" align="end">
                           <DropdownMenuItem onClick={() => fileInputRef.current?.click()}>
-                            <Upload className="w-3.5 h-3.5 mr-2" /> Alterar foto
+                            <Upload className="w-3.5 h-3.5 mr-2" /> {t("about.changePhoto")}
                           </DropdownMenuItem>
                           {p.avatar_url && (
                             <DropdownMenuItem
                               onClick={() => removeAvatar(p.id)}
                               className="text-destructive focus:text-destructive"
                             >
-                              <Trash2 className="w-3.5 h-3.5 mr-2" /> Remover foto
+                              <Trash2 className="w-3.5 h-3.5 mr-2" /> {t("about.removePhoto")}
                             </DropdownMenuItem>
                           )}
                         </DropdownMenuContent>
@@ -275,7 +277,7 @@ export default function Sobre() {
                 </div>
                 <div>
                   <h2 className="font-display text-3xl">{p.display_name}</h2>
-                  {isMine && <p className="font-script text-primary text-lg">é você ❤</p>}
+                  {isMine && <p className="font-script text-primary text-lg">{t("about.itsYou")}</p>}
                 </div>
               </div>
 
@@ -306,7 +308,7 @@ export default function Sobre() {
                           <button
                             className="text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground flex items-center gap-1 flex-1 text-left"
                             onClick={() => { setEditingLabelId(topic.id); setLabelDraftEdit(topic.label); }}
-                            title="Clique para renomear"
+                            title={t("about.renameHint")}
                           >
                             {topic.label}
                             <Pencil className="w-3 h-3 opacity-40" />
@@ -315,7 +317,7 @@ export default function Sobre() {
                         <button
                           onClick={() => removeTopic(topic.id)}
                           className="p-1 rounded hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition"
-                          title="Remover tópico"
+                          title={t("about.removeTopic")}
                         >
                           <X className="w-3.5 h-3.5" />
                         </button>
@@ -324,7 +326,7 @@ export default function Sobre() {
                         value={topic.content}
                         onChange={(e) => updateTopic(topic.id, "content", e.target.value)}
                         rows={2}
-                        placeholder={`Escreva sobre ${topic.label.toLowerCase()}...`}
+                        placeholder={t("about.writeAbout", { topic: topic.label.toLowerCase() })}
                       />
                     </div>
                   ))}
@@ -334,11 +336,11 @@ export default function Sobre() {
                     className="w-full border-dashed"
                     onClick={addTopic}
                   >
-                    <Plus className="w-4 h-4 mr-1" /> Adicionar tópico
+                    <Plus className="w-4 h-4 mr-1" /> {t("about.addTopic")}
                   </Button>
                   <div className="flex gap-2">
-                    <Button onClick={save} className="flex-1"><Save className="w-4 h-4 mr-2" /> Salvar</Button>
-                    <Button variant="outline" onClick={() => setEditing(null)}>Cancelar</Button>
+                    <Button onClick={save} className="flex-1"><Save className="w-4 h-4 mr-2" /> {t("about.save")}</Button>
+                    <Button variant="outline" onClick={() => setEditing(null)}>{t("about.cancel")}</Button>
                   </div>
                 </div>
               ) : (
@@ -368,7 +370,7 @@ export default function Sobre() {
                             <button
                               onClick={() => { setEditingLabel({ pid: p.id, key: topic.dbKey as FieldKey }); setLabelDraft(topic.label); }}
                               className="p-0.5 rounded hover:bg-muted opacity-0 group-hover/lbl:opacity-100 transition"
-                              title="Renomear tópico"
+                              title={t("about.renameTopic")}
                             >
                               <Pencil className="w-3 h-3 text-muted-foreground" />
                             </button>
@@ -376,13 +378,13 @@ export default function Sobre() {
                         </div>
                       )}
                       <p className="whitespace-pre-wrap text-foreground/90">
-                        {topic.content || <span className="italic text-muted-foreground">— ainda vazio —</span>}
+                        {topic.content || <span className="italic text-muted-foreground">{t("about.empty")}</span>}
                       </p>
                     </div>
                   ))}
                   {isMine && (
                     <Button variant="outline" size="sm" className="mt-2" onClick={() => startEditing(p)}>
-                      Editar minhas info
+                      {t("about.editInfo")}
                     </Button>
                   )}
                 </div>

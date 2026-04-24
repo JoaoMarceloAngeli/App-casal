@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Plus, CalendarHeart, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { PageHeader } from "@/components/PageHeader";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { format, parseISO, differenceInDays, isToday, isTomorrow } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { ptBR, enUS } from "date-fns/locale";
+import { useTranslation } from "react-i18next";
 
 interface DateRow {
   id: string;
@@ -20,11 +21,14 @@ interface DateRow {
 
 export default function Datas() {
   const { user } = useAuth();
+  const { t, i18n } = useTranslation();
   const [dates, setDates] = useState<DateRow[]>([]);
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [date, setDate] = useState("");
+
+  const dateLocale = i18n.language === "en" ? enUS : ptBR;
 
   const load = async () => {
     const { data } = await supabase.from("important_dates").select("*");
@@ -58,20 +62,20 @@ export default function Datas() {
   return (
     <div className="max-w-4xl mx-auto">
       <PageHeader
-        title="Datas Importantes"
-        subtitle="memórias do nosso tempo"
+        title={t("dates.title")}
+        subtitle={t("dates.subtitle")}
         action={
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button><Plus className="w-4 h-4 mr-2" /> Nova data</Button>
+              <Button><Plus className="w-4 h-4 mr-2" /> {t("dates.newDate")}</Button>
             </DialogTrigger>
             <DialogContent>
-              <DialogHeader><DialogTitle className="font-display text-2xl">Adicionar data</DialogTitle></DialogHeader>
+              <DialogHeader><DialogTitle className="font-display text-2xl">{t("dates.addDialog")}</DialogTitle></DialogHeader>
               <form onSubmit={add} className="space-y-3">
-                <Input placeholder="Título (ex: Aniversário do Marcelo)" value={title} onChange={(e) => setTitle(e.target.value)} required />
+                <Input placeholder={t("dates.titlePlaceholder")} value={title} onChange={(e) => setTitle(e.target.value)} required />
                 <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-                <Textarea placeholder="Descrição (opcional)" value={desc} onChange={(e) => setDesc(e.target.value)} />
-                <Button type="submit" className="w-full">Salvar</Button>
+                <Textarea placeholder={t("dates.descPlaceholder")} value={desc} onChange={(e) => setDesc(e.target.value)} />
+                <Button type="submit" className="w-full">{t("dates.save")}</Button>
               </form>
             </DialogContent>
           </Dialog>
@@ -80,7 +84,7 @@ export default function Datas() {
 
       {dates.length === 0 ? (
         <p className="font-script text-2xl text-center text-muted-foreground py-12">
-          nenhuma data marcada ainda...
+          {t("dates.empty")}
         </p>
       ) : (
         <div className="space-y-3">
@@ -102,14 +106,18 @@ export default function Datas() {
                     {format(parseISO(d.date), "dd")}
                   </p>
                   <p className="text-xs uppercase tracking-wider text-primary/80 mt-1">
-                    {format(parseISO(d.date), "MMM", { locale: ptBR })}
+                    {format(parseISO(d.date), "MMM", { locale: dateLocale })}
                   </p>
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-display text-xl">{d.title}</h3>
                   {d.description && <p className="text-sm text-muted-foreground">{d.description}</p>}
                   <p className="text-xs text-primary mt-1 font-medium">
-                    {isToday(next) ? "❤ é HOJE!" : isTomorrow(next) ? "❤ é amanhã!" : `em ${days} dias`}
+                    {isToday(next)
+                      ? t("dates.today")
+                      : isTomorrow(next)
+                        ? t("dates.tomorrow")
+                        : t("dates.inDays", { count: days })}
                   </p>
                 </div>
                 <Button size="sm" variant="ghost" onClick={() => remove(d.id)} className="opacity-0 group-hover:opacity-100">

@@ -1,0 +1,155 @@
+{
+  "sidebar": {
+    "title": "Nosso Cantinho",
+    "subtitle": "João & Mariana",
+    "world": "Nosso mundo",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "loggedAs": "logado como",
+    "logout": "Sair",
+    "langSwitch": "Mudar idioma"
+  },
+  "nav": {
+    "home": "Início",
+    "photos": "Fotos",
+    "messages": "Recados",
+    "letters": "Cartinhas",
+    "places": "Lugares",
+    "dates": "Datas",
+    "about": "Sobre nós",
+    "movies": "Filmes",
+    "suggestions": "Sugestões"
+  },
+  "layout": {
+    "tagline": "Lembre-se de que te amo muito.",
+    "lightMode": "Modo claro",
+    "darkMode": "Modo escuro"
+  },
+  "auth": {
+    "title": "Nosso Cantinho",
+    "whoAreYou": "Quem é você?",
+    "secretPassword": "Senha secreta",
+    "firstAccess": "Primeiro acesso? A senha que digitar agora será salva como sua senha.",
+    "enterButton": "Entrar no nosso mundo ❤",
+    "entering": "Entrando...",
+    "wrongPassword": "Senha incorreta 💔",
+    "welcome": "Bem-vindo(a), {{name}} ❤"
+  },
+  "home": {
+    "goodMorning": "Bom dia",
+    "goodAfternoon": "Boa tarde",
+    "goodEvening": "Boa noite",
+    "welcomeBack": "que bom que você voltou ❤",
+    "reminders": "Lembretes de datas especiais",
+    "inDays": "em {{count}} dias",
+    "today": "é HOJE!",
+    "tomorrow": "é AMANHÃ ❤",
+    "footer": "feito com amor, só pra nós dois",
+    "cards": {
+      "photos": "nossos momentos",
+      "messages": "palavras pra você",
+      "letters": "cartas de amor",
+      "places": "pra explorar juntos",
+      "dates": "nossas memórias",
+      "about": "quem somos",
+      "movies": "nossa lista",
+      "suggestions": "ideias livres"
+    }
+  },
+  "photos": {
+    "title": "Fotos do Casal",
+    "subtitle": "nossos momentos guardados",
+    "uploading": "Enviando...",
+    "add": "Adicionar",
+    "emptyPhotos": "ainda não temos fotos ou vídeos aqui...",
+    "emptyLetters": "nenhuma cartinha por enquanto...",
+    "uploadCount_one": "{{count}} lembrança enviada ❤",
+    "uploadCount_other": "{{count}} lembranças enviadas ❤",
+    "deleteConfirm": "Apagar esta lembrança?",
+    "delete": "Apagar"
+  },
+  "letters": {
+    "title": "Cartinhas",
+    "subtitle": "palavras escritas com o coração"
+  },
+  "messages": {
+    "title": "Recados",
+    "subtitle": "palavrinhas pra você",
+    "empty": "comece a conversa com um ❤",
+    "placeholder": "escreve um recadinho..."
+  },
+  "places": {
+    "title": "Lugares pra Ir",
+    "subtitle": "aventuras a dois",
+    "newPlace": "Novo lugar",
+    "addDialog": "Adicionar um lugar",
+    "namePlaceholder": "Nome do lugar",
+    "descPlaceholder": "Descrição (opcional)",
+    "save": "Salvar",
+    "wantToGo": "Queremos ir ({{count}})",
+    "beenThere": "Já fomos ({{count}})",
+    "emptyWant": "nenhum sonho de viagem ainda...",
+    "emptyBeen": "nenhuma aventura registrada...",
+    "markVisited": "Marcar como visitado",
+    "backToList": "Voltar pra lista"
+  },
+  "dates": {
+    "title": "Datas Importantes",
+    "subtitle": "memórias do nosso tempo",
+    "newDate": "Nova data",
+    "addDialog": "Adicionar data",
+    "titlePlaceholder": "Título (ex: Aniversário do Marcelo)",
+    "descPlaceholder": "Descrição (opcional)",
+    "save": "Salvar",
+    "empty": "nenhuma data marcada ainda...",
+    "today": "❤ é HOJE!",
+    "tomorrow": "❤ é amanhã!",
+    "inDays": "em {{count}} dias"
+  },
+  "about": {
+    "title": "Sobre Nós",
+    "subtitle": "quem somos, o que amamos",
+    "itsYou": "é você ❤",
+    "editPhoto": "Editar foto",
+    "changePhoto": "Alterar foto",
+    "removePhoto": "Remover foto",
+    "editInfo": "Editar minhas info",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "addTopic": "Adicionar tópico",
+    "renameHint": "Clique para renomear",
+    "removeTopic": "Remover tópico",
+    "renameTopic": "Renomear tópico",
+    "newTopic": "Novo tópico",
+    "empty": "— ainda vazio —",
+    "writeAbout": "Escreva sobre {{topic}}...",
+    "saved": "Salvo ❤",
+    "photoUpdated": "Foto atualizada ❤",
+    "photoRemoved": "Foto removida",
+    "topicRenamed": "Tópico renomeado ❤"
+  },
+  "movies": {
+    "title": "Filmes & Séries",
+    "subtitle": "nossa sessão a dois",
+    "add": "Adicionar",
+    "addDialog": "Adicionar filme/série",
+    "titlePlaceholder": "Título",
+    "notesPlaceholder": "Notas (opcional)",
+    "save": "Salvar",
+    "wantToWatch": "Queremos ver ({{count}})",
+    "watched": "Já vimos ({{count}})",
+    "empty": "nada por aqui ainda...",
+    "markWatched": "Já vimos",
+    "backToList": "Voltar"
+  },
+  "suggestions": {
+    "title": "Sugestões",
+    "subtitle": "ideias soltas pra nós",
+    "placeholder": "uma ideia, um sonho, uma vontade...",
+    "empty": "nenhuma ideia por aqui ainda..."
+  },
+  "notFound": {
+    "message": "Ops! Página não encontrada",
+    "backHome": "Voltar para o início"
+  }
+}

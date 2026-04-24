@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Lightbulb, Trash2, Check } from "lucide-react";
+import { Plus, Lightbulb, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { PageHeader } from "@/components/PageHeader";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useTranslation } from "react-i18next";
 
 interface Suggestion {
   id: string;
@@ -17,6 +18,7 @@ interface Suggestion {
 
 export default function Sugestoes() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [items, setItems] = useState<Suggestion[]>([]);
   const [text, setText] = useState("");
 
@@ -46,13 +48,13 @@ export default function Sugestoes() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <PageHeader title="Sugestões" subtitle="ideias soltas pra nós" />
+      <PageHeader title={t("suggestions.title")} subtitle={t("suggestions.subtitle")} />
 
       <form onSubmit={add} className="paper-card p-4 mb-6 flex gap-2">
         <Textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="uma ideia, um sonho, uma vontade..."
+          placeholder={t("suggestions.placeholder")}
           rows={2}
           className="resize-none"
         />
@@ -63,7 +65,7 @@ export default function Sugestoes() {
 
       {items.length === 0 ? (
         <p className="font-script text-2xl text-center text-muted-foreground py-12">
-          nenhuma ideia por aqui ainda...
+          {t("suggestions.empty")}
         </p>
       ) : (
         <div className="space-y-2">

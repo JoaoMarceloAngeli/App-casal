@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import vintageBg from "@/assets/vintage-bg.jpg";
+import { useTranslation } from "react-i18next";
 
 const ALLOWED = [
   { name: "João Marcelo", email: "joao@nosso.amor" },
@@ -18,6 +19,7 @@ const ALLOWED = [
 export default function Auth() {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const { t } = useTranslation();
   const [selected, setSelected] = useState(ALLOWED[0]);
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -30,10 +32,8 @@ export default function Auth() {
     e.preventDefault();
     if (!password) return;
     setBusy(true);
-    // Try sign in first
     let { error } = await supabase.auth.signInWithPassword({ email: selected.email, password });
     if (error && error.message.toLowerCase().includes("invalid")) {
-      // First-time setup: create the account
       const { error: signUpError } = await supabase.auth.signUp({
         email: selected.email,
         password,
@@ -47,16 +47,15 @@ export default function Auth() {
         setBusy(false);
         return;
       }
-      // Sign in after signup
       const r = await supabase.auth.signInWithPassword({ email: selected.email, password });
       error = r.error;
     }
     if (error) {
-      toast.error("Senha incorreta 💔");
+      toast.error(t("auth.wrongPassword"));
       setBusy(false);
       return;
     }
-    toast.success(`Bem-vindo(a), ${selected.name} ❤`);
+    toast.success(t("auth.welcome", { name: selected.name }));
     navigate("/", { replace: true });
   };
 
@@ -83,14 +82,14 @@ export default function Auth() {
           >
             <Heart className="w-10 h-10 text-primary fill-primary/30 mx-auto mb-3" strokeWidth={1.5} />
           </motion.div>
-          <h1 className="font-display text-4xl text-foreground">Nosso Cantinho</h1>
+          <h1 className="font-display text-4xl text-foreground">{t("auth.title")}</h1>
           <p className="font-script text-2xl text-primary mt-1">João Marcelo & Mariana</p>
           <div className="ink-divider mt-4" />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <Label className="text-sm uppercase tracking-widest text-muted-foreground">Quem é você?</Label>
+            <Label className="text-sm uppercase tracking-widest text-muted-foreground">{t("auth.whoAreYou")}</Label>
             <div className="grid grid-cols-2 gap-2 mt-2">
               {ALLOWED.map((u) => (
                 <button
@@ -111,7 +110,7 @@ export default function Auth() {
 
           <div>
             <Label htmlFor="password" className="text-sm uppercase tracking-widest text-muted-foreground">
-              Senha secreta
+              {t("auth.secretPassword")}
             </Label>
             <Input
               id="password"
@@ -124,13 +123,11 @@ export default function Auth() {
               className="mt-2 bg-background/60 border-border/80"
               placeholder="••••••••"
             />
-            <p className="text-xs text-muted-foreground mt-2 italic">
-              Primeiro acesso? A senha que digitar agora será salva como sua senha.
-            </p>
+            <p className="text-xs text-muted-foreground mt-2 italic">{t("auth.firstAccess")}</p>
           </div>
 
           <Button type="submit" disabled={busy} className="w-full text-base h-11">
-            {busy ? "Entrando..." : "Entrar no nosso mundo ❤"}
+            {busy ? t("auth.entering") : t("auth.enterButton")}
           </Button>
         </form>
       </motion.div>

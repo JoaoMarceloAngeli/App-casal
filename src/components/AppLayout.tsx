@@ -6,14 +6,16 @@ import { useAuth } from "@/hooks/useAuth";
 import { Heart, Sun, Moon } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
 
 function MobileSidebarTrigger() {
   const { toggleSidebar } = useSidebar();
+  const { t } = useTranslation();
   return (
     <button
       onClick={toggleSidebar}
       className="md:hidden mr-2 w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition"
-      title="Abrir menu"
+      title={t("sidebar.openMenu")}
     >
       <Heart className="w-5 h-5 text-primary fill-primary/40" strokeWidth={1.5} />
     </button>
@@ -23,6 +25,7 @@ function MobileSidebarTrigger() {
 export default function AppLayout({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
   const { theme, setTheme } = useTheme();
+  const { t } = useTranslation();
 
   if (loading) {
     return (
@@ -41,12 +44,12 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <div className="flex-1 flex flex-col min-w-0">
           <header className="h-14 flex items-center px-4 border-b border-border/60 bg-background/70 backdrop-blur-sm sticky top-0 z-10">
             <MobileSidebarTrigger />
-            <span className="font-script text-primary text-2xl">Lembre-se de que te amo muito.</span>
+            <span className="font-script text-primary text-2xl">{t("layout.tagline")}</span>
             <div className="flex-1" />
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="p-2 rounded-full hover:bg-muted transition"
-              title={theme === "dark" ? "Modo claro" : "Modo escuro"}
+              title={theme === "dark" ? t("layout.lightMode") : t("layout.darkMode")}
             >
               {theme === "dark"
                 ? <Sun className="w-4 h-4 text-muted-foreground" />

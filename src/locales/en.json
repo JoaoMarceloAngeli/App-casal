@@ -1,0 +1,155 @@
+{
+  "sidebar": {
+    "title": "Our Corner",
+    "subtitle": "João & Mariana",
+    "world": "Our world",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "loggedAs": "logged in as",
+    "logout": "Sign out",
+    "langSwitch": "Change language"
+  },
+  "nav": {
+    "home": "Home",
+    "photos": "Photos",
+    "messages": "Messages",
+    "letters": "Letters",
+    "places": "Places",
+    "dates": "Dates",
+    "about": "About us",
+    "movies": "Movies",
+    "suggestions": "Suggestions"
+  },
+  "layout": {
+    "tagline": "Remember that I love you so much.",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode"
+  },
+  "auth": {
+    "title": "Our Corner",
+    "whoAreYou": "Who are you?",
+    "secretPassword": "Secret password",
+    "firstAccess": "First time? The password you enter now will be saved as your password.",
+    "enterButton": "Enter our world ❤",
+    "entering": "Entering...",
+    "wrongPassword": "Wrong password 💔",
+    "welcome": "Welcome, {{name}} ❤"
+  },
+  "home": {
+    "goodMorning": "Good morning",
+    "goodAfternoon": "Good afternoon",
+    "goodEvening": "Good evening",
+    "welcomeBack": "so glad you're back ❤",
+    "reminders": "Upcoming special dates",
+    "inDays": "in {{count}} days",
+    "today": "is TODAY!",
+    "tomorrow": "is TOMORROW ❤",
+    "footer": "made with love, just for us two",
+    "cards": {
+      "photos": "our moments",
+      "messages": "words for you",
+      "letters": "love letters",
+      "places": "to explore together",
+      "dates": "our memories",
+      "about": "who we are",
+      "movies": "our list",
+      "suggestions": "free ideas"
+    }
+  },
+  "photos": {
+    "title": "Our Photos",
+    "subtitle": "our saved moments",
+    "uploading": "Uploading...",
+    "add": "Add",
+    "emptyPhotos": "no photos or videos here yet...",
+    "emptyLetters": "no letters yet...",
+    "uploadCount_one": "{{count}} memory sent ❤",
+    "uploadCount_other": "{{count}} memories sent ❤",
+    "deleteConfirm": "Delete this memory?",
+    "delete": "Delete"
+  },
+  "letters": {
+    "title": "Letters",
+    "subtitle": "words written with the heart"
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "little words for you",
+    "empty": "start the conversation with a ❤",
+    "placeholder": "write a little message..."
+  },
+  "places": {
+    "title": "Places to Go",
+    "subtitle": "adventures for two",
+    "newPlace": "New place",
+    "addDialog": "Add a place",
+    "namePlaceholder": "Place name",
+    "descPlaceholder": "Description (optional)",
+    "save": "Save",
+    "wantToGo": "Want to go ({{count}})",
+    "beenThere": "Been there ({{count}})",
+    "emptyWant": "no travel dreams yet...",
+    "emptyBeen": "no adventures recorded...",
+    "markVisited": "Mark as visited",
+    "backToList": "Back to list"
+  },
+  "dates": {
+    "title": "Important Dates",
+    "subtitle": "memories of our time",
+    "newDate": "New date",
+    "addDialog": "Add date",
+    "titlePlaceholder": "Title (e.g. Marcelo's birthday)",
+    "descPlaceholder": "Description (optional)",
+    "save": "Save",
+    "empty": "no dates marked yet...",
+    "today": "❤ it's TODAY!",
+    "tomorrow": "❤ it's tomorrow!",
+    "inDays": "in {{count}} days"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "who we are, what we love",
+    "itsYou": "that's you ❤",
+    "editPhoto": "Edit photo",
+    "changePhoto": "Change photo",
+    "removePhoto": "Remove photo",
+    "editInfo": "Edit my info",
+    "save": "Save",
+    "cancel": "Cancel",
+    "addTopic": "Add topic",
+    "renameHint": "Click to rename",
+    "removeTopic": "Remove topic",
+    "renameTopic": "Rename topic",
+    "newTopic": "New topic",
+    "empty": "— still empty —",
+    "writeAbout": "Write about {{topic}}...",
+    "saved": "Saved ❤",
+    "photoUpdated": "Photo updated ❤",
+    "photoRemoved": "Photo removed",
+    "topicRenamed": "Topic renamed ❤"
+  },
+  "movies": {
+    "title": "Movies & Series",
+    "subtitle": "our movie night for two",
+    "add": "Add",
+    "addDialog": "Add movie/series",
+    "titlePlaceholder": "Title",
+    "notesPlaceholder": "Notes (optional)",
+    "save": "Save",
+    "wantToWatch": "Want to watch ({{count}})",
+    "watched": "Already watched ({{count}})",
+    "empty": "nothing here yet...",
+    "markWatched": "We've watched it",
+    "backToList": "Back"
+  },
+  "suggestions": {
+    "title": "Suggestions",
+    "subtitle": "loose ideas for us",
+    "placeholder": "an idea, a dream, a wish...",
+    "empty": "no ideas here yet..."
+  },
+  "notFound": {
+    "message": "Oops! Page not found",
+    "backHome": "Return to Home"
+  }
+}

@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { PageHeader } from "@/components/PageHeader";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useTranslation } from "react-i18next";
 
 interface Movie {
   id: string;
@@ -19,6 +20,7 @@ interface Movie {
 
 export default function Filmes() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -54,19 +56,19 @@ export default function Filmes() {
   return (
     <div className="max-w-4xl mx-auto">
       <PageHeader
-        title="Filmes & Séries"
-        subtitle="nossa sessão a dois"
+        title={t("movies.title")}
+        subtitle={t("movies.subtitle")}
         action={
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button><Plus className="w-4 h-4 mr-2" /> Adicionar</Button>
+              <Button><Plus className="w-4 h-4 mr-2" /> {t("movies.add")}</Button>
             </DialogTrigger>
             <DialogContent>
-              <DialogHeader><DialogTitle className="font-display text-2xl">Adicionar filme/série</DialogTitle></DialogHeader>
+              <DialogHeader><DialogTitle className="font-display text-2xl">{t("movies.addDialog")}</DialogTitle></DialogHeader>
               <form onSubmit={add} className="space-y-3">
-                <Input placeholder="Título" value={title} onChange={(e) => setTitle(e.target.value)} required />
-                <Textarea placeholder="Notas (opcional)" value={notes} onChange={(e) => setNotes(e.target.value)} />
-                <Button type="submit" className="w-full">Salvar</Button>
+                <Input placeholder={t("movies.titlePlaceholder")} value={title} onChange={(e) => setTitle(e.target.value)} required />
+                <Textarea placeholder={t("movies.notesPlaceholder")} value={notes} onChange={(e) => setNotes(e.target.value)} />
+                <Button type="submit" className="w-full">{t("movies.save")}</Button>
               </form>
             </DialogContent>
           </Dialog>
@@ -75,15 +77,15 @@ export default function Filmes() {
 
       <Tabs defaultValue="quero_ver">
         <TabsList className="mb-6">
-          <TabsTrigger value="quero_ver">Queremos ver ({filter("quero_ver").length})</TabsTrigger>
-          <TabsTrigger value="ja_vimos">Já vimos ({filter("ja_vimos").length})</TabsTrigger>
+          <TabsTrigger value="quero_ver">{t("movies.wantToWatch", { count: filter("quero_ver").length })}</TabsTrigger>
+          <TabsTrigger value="ja_vimos">{t("movies.watched", { count: filter("ja_vimos").length })}</TabsTrigger>
         </TabsList>
 
         {(["quero_ver", "ja_vimos"] as const).map((s) => (
           <TabsContent key={s} value={s}>
             {filter(s).length === 0 ? (
               <p className="font-script text-2xl text-center text-muted-foreground py-12">
-                nada por aqui ainda...
+                {t("movies.empty")}
               </p>
             ) : (
               <div className="grid sm:grid-cols-2 gap-3">
@@ -102,7 +104,7 @@ export default function Filmes() {
                       <div className="flex gap-2 mt-2 opacity-70 group-hover:opacity-100 transition">
                         <Button size="sm" variant="outline" onClick={() => toggle(m)}>
                           <Check className="w-3 h-3 mr-1" />
-                          {s === "quero_ver" ? "Já vimos" : "Voltar"}
+                          {s === "quero_ver" ? t("movies.markWatched") : t("movies.backToList")}
                         </Button>
                         <Button size="sm" variant="ghost" onClick={() => remove(m.id)}>
                           <Trash2 className="w-3 h-3" />

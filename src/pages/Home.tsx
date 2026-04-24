@@ -4,23 +4,13 @@ import { motion } from "framer-motion";
 import { Heart, Camera, MessageCircle, Mail, MapPin, CalendarHeart, User, Film, Lightbulb } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { format, differenceInDays, parseISO, isToday, isTomorrow } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { differenceInDays, parseISO, isToday, isTomorrow } from "date-fns";
 import { PageHeader } from "@/components/PageHeader";
-
-const cards = [
-  { url: "/fotos", icon: Camera, title: "Fotos", note: "nossos momentos" },
-  { url: "/recados", icon: MessageCircle, title: "Recados", note: "palavras pra você" },
-  { url: "/cartinhas", icon: Mail, title: "Cartinhas", note: "cartas de amor" },
-  { url: "/lugares", icon: MapPin, title: "Lugares", note: "pra explorar juntos" },
-  { url: "/datas", icon: CalendarHeart, title: "Datas", note: "nossas memórias" },
-  { url: "/sobre", icon: User, title: "Sobre nós", note: "quem somos" },
-  { url: "/filmes", icon: Film, title: "Filmes", note: "nossa lista" },
-  { url: "/sugestoes", icon: Lightbulb, title: "Sugestões", note: "ideias livres" },
-];
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
   const { profile } = useAuth();
+  const { t } = useTranslation();
   const [reminders, setReminders] = useState<{ title: string; when: string; days: number }[]>([]);
 
   useEffect(() => {
@@ -36,9 +26,9 @@ export default function Home() {
             next.setFullYear(today.getFullYear() + 1);
           }
           const days = differenceInDays(next, today);
-          let when = `em ${days} dias`;
-          if (isToday(next)) when = "é HOJE!";
-          else if (isTomorrow(next)) when = "é AMANHÃ ❤";
+          let when = t("home.inDays", { count: days });
+          if (isToday(next)) when = t("home.today");
+          else if (isTomorrow(next)) when = t("home.tomorrow");
           return { title: d.title as string, when, days, next };
         })
         .sort((a, b) => a.days - b.days)
@@ -46,16 +36,27 @@ export default function Home() {
       setReminders(upcoming);
     };
     load();
-  }, []);
+  }, [t]);
 
   const hour = new Date().getHours();
-  const greeting = hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
+  const greeting = hour < 12 ? t("home.goodMorning") : hour < 18 ? t("home.goodAfternoon") : t("home.goodEvening");
+
+  const cards = [
+    { url: "/fotos", icon: Camera, title: t("nav.photos"), note: t("home.cards.photos") },
+    { url: "/recados", icon: MessageCircle, title: t("nav.messages"), note: t("home.cards.messages") },
+    { url: "/cartinhas", icon: Mail, title: t("nav.letters"), note: t("home.cards.letters") },
+    { url: "/lugares", icon: MapPin, title: t("nav.places"), note: t("home.cards.places") },
+    { url: "/datas", icon: CalendarHeart, title: t("nav.dates"), note: t("home.cards.dates") },
+    { url: "/sobre", icon: User, title: t("nav.about"), note: t("home.cards.about") },
+    { url: "/filmes", icon: Film, title: t("nav.movies"), note: t("home.cards.movies") },
+    { url: "/sugestoes", icon: Lightbulb, title: t("nav.suggestions"), note: t("home.cards.suggestions") },
+  ];
 
   return (
     <div className="max-w-6xl mx-auto">
       <PageHeader
         title={`${greeting}, ${profile?.display_name?.split(" ")[0] ?? "amor"}`}
-        subtitle="que bom que você voltou ❤"
+        subtitle={t("home.welcomeBack")}
       />
 
       {reminders.length > 0 && (
@@ -67,7 +68,7 @@ export default function Home() {
           <div className="flex items-start gap-3">
             <Heart className="w-5 h-5 text-primary fill-primary/40 mt-1 shrink-0" />
             <div className="flex-1">
-              <p className="font-display text-xl mb-2">Lembretes de datas especiais</p>
+              <p className="font-display text-xl mb-2">{t("home.reminders")}</p>
               <ul className="space-y-1.5">
                 {reminders.map((r, i) => (
                   <li key={i} className="text-sm">
@@ -102,7 +103,7 @@ export default function Home() {
       </div>
 
       <p className="text-center font-script text-2xl text-primary/70 mt-12">
-        feito com amor, só pra nós dois
+        {t("home.footer")}
       </p>
     </div>
   );

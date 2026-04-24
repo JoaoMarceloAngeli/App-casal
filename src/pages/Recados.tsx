@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageHeader } from "@/components/PageHeader";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { ptBR, enUS } from "date-fns/locale";
+import { useTranslation } from "react-i18next";
 
 interface Msg {
   id: string;
@@ -19,10 +20,13 @@ interface ProfileLite { id: string; display_name: string; avatar_url: string | n
 
 export default function Recados() {
   const { user } = useAuth();
+  const { t, i18n } = useTranslation();
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [profiles, setProfiles] = useState<Record<string, ProfileLite>>({});
   const [text, setText] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  const dateLocale = i18n.language === "en" ? enUS : ptBR;
 
   const load = async () => {
     const [{ data: m }, { data: p }] = await Promise.all([
@@ -60,13 +64,13 @@ export default function Recados() {
 
   return (
     <div className="max-w-3xl mx-auto h-[calc(100vh-7rem)] flex flex-col">
-      <PageHeader title="Recados" subtitle="palavrinhas pra você" />
+      <PageHeader title={t("messages.title")} subtitle={t("messages.subtitle")} />
 
       <div className="paper-card flex-1 flex flex-col overflow-hidden">
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
           {msgs.length === 0 && (
             <p className="font-script text-2xl text-center text-muted-foreground mt-10">
-              comece a conversa com um ❤
+              {t("messages.empty")}
             </p>
           )}
           <AnimatePresence>
@@ -94,7 +98,7 @@ export default function Recados() {
                     <div className="flex items-center gap-2 mt-1 px-1 text-xs text-muted-foreground">
                       <span className="font-script text-sm">{sender?.display_name?.split(" ")[0] ?? "..."}</span>
                       <span>·</span>
-                      <span>{format(new Date(m.created_at), "d MMM, HH:mm", { locale: ptBR })}</span>
+                      <span>{format(new Date(m.created_at), "d MMM, HH:mm", { locale: dateLocale })}</span>
                       {mine && (
                         <button
                           onClick={() => remove(m.id)}
@@ -116,7 +120,7 @@ export default function Recados() {
           <Input
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="escreve um recadinho..."
+            placeholder={t("messages.placeholder")}
             className="bg-background"
           />
           <Button type="submit" size="icon" disabled={!text.trim()}>

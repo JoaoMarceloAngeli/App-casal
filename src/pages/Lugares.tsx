@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { PageHeader } from "@/components/PageHeader";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useTranslation } from "react-i18next";
 
 interface Place {
   id: string;
@@ -19,6 +20,7 @@ interface Place {
 
 export default function Lugares() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [places, setPlaces] = useState<Place[]>([]);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -55,19 +57,19 @@ export default function Lugares() {
   return (
     <div className="max-w-4xl mx-auto">
       <PageHeader
-        title="Lugares pra Ir"
-        subtitle="aventuras a dois"
+        title={t("places.title")}
+        subtitle={t("places.subtitle")}
         action={
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button><Plus className="w-4 h-4 mr-2" /> Novo lugar</Button>
+              <Button><Plus className="w-4 h-4 mr-2" /> {t("places.newPlace")}</Button>
             </DialogTrigger>
             <DialogContent>
-              <DialogHeader><DialogTitle className="font-display text-2xl">Adicionar um lugar</DialogTitle></DialogHeader>
+              <DialogHeader><DialogTitle className="font-display text-2xl">{t("places.addDialog")}</DialogTitle></DialogHeader>
               <form onSubmit={add} className="space-y-3">
-                <Input placeholder="Nome do lugar" value={name} onChange={(e) => setName(e.target.value)} required />
-                <Textarea placeholder="Descrição (opcional)" value={desc} onChange={(e) => setDesc(e.target.value)} />
-                <Button type="submit" className="w-full">Salvar</Button>
+                <Input placeholder={t("places.namePlaceholder")} value={name} onChange={(e) => setName(e.target.value)} required />
+                <Textarea placeholder={t("places.descPlaceholder")} value={desc} onChange={(e) => setDesc(e.target.value)} />
+                <Button type="submit" className="w-full">{t("places.save")}</Button>
               </form>
             </DialogContent>
           </Dialog>
@@ -76,15 +78,15 @@ export default function Lugares() {
 
       <Tabs defaultValue="quero_ir">
         <TabsList className="mb-6">
-          <TabsTrigger value="quero_ir">Queremos ir ({filter("quero_ir").length})</TabsTrigger>
-          <TabsTrigger value="ja_fomos">Já fomos ({filter("ja_fomos").length})</TabsTrigger>
+          <TabsTrigger value="quero_ir">{t("places.wantToGo", { count: filter("quero_ir").length })}</TabsTrigger>
+          <TabsTrigger value="ja_fomos">{t("places.beenThere", { count: filter("ja_fomos").length })}</TabsTrigger>
         </TabsList>
 
         {(["quero_ir", "ja_fomos"] as const).map((s) => (
           <TabsContent key={s} value={s}>
             {filter(s).length === 0 ? (
               <p className="font-script text-2xl text-center text-muted-foreground py-12">
-                {s === "quero_ir" ? "nenhum sonho de viagem ainda..." : "nenhuma aventura registrada..."}
+                {s === "quero_ir" ? t("places.emptyWant") : t("places.emptyBeen")}
               </p>
             ) : (
               <div className="grid sm:grid-cols-2 gap-4">
@@ -104,7 +106,7 @@ export default function Lugares() {
                         <div className="flex gap-2 mt-3 opacity-70 group-hover:opacity-100 transition">
                           <Button size="sm" variant="outline" onClick={() => toggle(p)}>
                             <Check className="w-3 h-3 mr-1" />
-                            {p.status === "quero_ir" ? "Marcar como visitado" : "Voltar pra lista"}
+                            {p.status === "quero_ir" ? t("places.markVisited") : t("places.backToList")}
                           </Button>
                           <Button size="sm" variant="ghost" onClick={() => remove(p.id)}>
                             <Trash2 className="w-3 h-3" />

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/PageHeader";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useTranslation } from "react-i18next";
 
 interface PhotoItem {
   id: string;
@@ -25,6 +26,7 @@ const isVideo = (path: string) => {
 
 export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "letter"; title: string; subtitle: string }) {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [items, setItems] = useState<PhotoItem[]>([]);
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<PhotoItem | null>(null);
@@ -68,7 +70,10 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
         });
         if (dbErr) throw dbErr;
       }
-      toast.success(`${files.length} ${files.length === 1 ? "lembrança enviada" : "lembranças enviadas"} ❤`);
+      toast.success(t(
+        files.length === 1 ? "photos.uploadCount_one" : "photos.uploadCount_other",
+        { count: files.length }
+      ));
       load();
     } catch (err: any) {
       toast.error(err.message);
@@ -79,7 +84,7 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
   };
 
   const handleDelete = async (item: PhotoItem) => {
-    if (!confirm("Apagar esta lembrança?")) return;
+    if (!confirm(t("photos.deleteConfirm"))) return;
     await supabase.storage.from("couple-photos").remove([item.storage_path]);
     await supabase.from("photos").delete().eq("id", item.id);
     setPreview(null);
@@ -104,7 +109,7 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
             <Button asChild disabled={uploading}>
               <span className="cursor-pointer">
                 <Upload className="w-4 h-4 mr-2" />
-                {uploading ? "Enviando..." : "Adicionar"}
+                {uploading ? t("photos.uploading") : t("photos.add")}
               </span>
             </Button>
           </label>
@@ -114,7 +119,7 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
       {items.length === 0 ? (
         <div className="paper-card p-12 text-center">
           <p className="font-script text-2xl text-muted-foreground">
-            {kind === "photo" ? "ainda não temos fotos ou vídeos aqui..." : "nenhuma cartinha por enquanto..."}
+            {kind === "photo" ? t("photos.emptyPhotos") : t("photos.emptyLetters")}
           </p>
         </div>
       ) : (
@@ -184,7 +189,7 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
                 <p className="font-script text-lg">{preview.caption || ""}</p>
                 {preview.uploader_id === user?.id && (
                   <Button variant="ghost" size="sm" onClick={() => handleDelete(preview)}>
-                    <Trash2 className="w-4 h-4 mr-1" /> Apagar
+                    <Trash2 className="w-4 h-4 mr-1" /> {t("photos.delete")}
                   </Button>
                 )}
               </div>

@@ -1,4 +1,7 @@
 import { PhotoGallery } from "@/components/PhotoGallery";
+import { useTranslation } from "react-i18next";
+
 export default function Cartinhas() {
-  return <PhotoGallery kind="letter" title="Cartinhas" subtitle="palavras escritas com o coração" />;
+  const { t } = useTranslation();
+  return <PhotoGallery kind="letter" title={t("letters.title")} subtitle={t("letters.subtitle")} />;
 }
