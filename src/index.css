@@ -18,7 +18,7 @@
     --popover: 36 38% 97%;
     --popover-foreground: 20 25% 18%;
 
-    --primary: 12 45% 42%;             /* terracotta */
+    --primary: 340 48% 48%;             /* rose pink */
     --primary-foreground: 36 38% 97%;
 
     --secondary: 30 30% 88%;           /* soft beige */
@@ -40,7 +40,7 @@
 
     --border: 30 22% 80%;
     --input: 30 22% 85%;
-    --ring: 12 45% 42%;
+    --ring: 340 48% 48%;
 
     --radius: 0.25rem;
 
@@ -48,16 +48,16 @@
     --shadow-soft: 0 4px 20px -4px hsl(20 30% 15% / 0.12);
     --shadow-deep: 0 20px 50px -20px hsl(20 30% 15% / 0.4);
     --gradient-warm: linear-gradient(135deg, hsl(36 38% 97%) 0%, hsl(30 30% 88%) 100%);
-    --gradient-rose: linear-gradient(135deg, hsl(350 45% 75%) 0%, hsl(12 45% 55%) 100%);
+    --gradient-rose: linear-gradient(135deg, hsl(350 45% 75%) 0%, hsl(340 48% 55%) 100%);
 
     --sidebar-background: 32 28% 92%;
     --sidebar-foreground: 20 25% 22%;
-    --sidebar-primary: 12 45% 42%;
+    --sidebar-primary: 340 48% 48%;
     --sidebar-primary-foreground: 36 38% 97%;
     --sidebar-accent: 30 30% 86%;
     --sidebar-accent-foreground: 20 25% 18%;
     --sidebar-border: 30 22% 78%;
-    --sidebar-ring: 12 45% 42%;
+    --sidebar-ring: 340 48% 48%;
   }
 
   .dark {
