@@ -62,6 +62,13 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
             className="flex-1 p-4 sm:p-6 lg:p-8"
+            onClick={(e) => {
+              const target = e.target as HTMLElement;
+              if (!target.closest('input, textarea, button, a, select, [role="button"]')) {
+                (document.activeElement as HTMLElement)?.blur();
+                window.getSelection()?.removeAllRanges();
+              }
+            }}
           >
             {children}
           </motion.main>
