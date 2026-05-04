@@ -53,12 +53,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             <button
               onClick={toggleLang}
               title={t("sidebar.langSwitch")}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full hover:bg-muted transition"
+              className="flex items-center px-2.5 py-1.5 rounded-full hover:bg-muted transition"
             >
               <Globe className="w-4 h-4 text-muted-foreground" />
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                {i18n.language === "pt" ? "PT" : "EN"}
-              </span>
             </button>
           </header>
           <motion.main
