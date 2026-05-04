@@ -3,9 +3,8 @@ import { Navigate } from "react-router-dom";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { useAuth } from "@/hooks/useAuth";
-import { Heart, Sun, Moon } from "lucide-react";
+import { Heart, Globe } from "lucide-react";
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 
 function MobileSidebarTrigger() {
@@ -24,8 +23,13 @@ function MobileSidebarTrigger() {
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
-  const { theme, setTheme } = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  function toggleLang() {
+    const next = i18n.language === "pt" ? "en" : "pt";
+    i18n.changeLanguage(next);
+    localStorage.setItem("lang", next);
+  }
 
   if (loading) {
     return (
@@ -47,13 +51,14 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             <span className="font-script text-primary text-2xl">{t("layout.tagline")}</span>
             <div className="flex-1" />
             <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2 rounded-full hover:bg-muted transition"
-              title={theme === "dark" ? t("layout.lightMode") : t("layout.darkMode")}
+              onClick={toggleLang}
+              title={t("sidebar.langSwitch")}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full hover:bg-muted transition"
             >
-              {theme === "dark"
-                ? <Sun className="w-4 h-4 text-muted-foreground" />
-                : <Moon className="w-4 h-4 text-muted-foreground" />}
+              <Globe className="w-4 h-4 text-muted-foreground" />
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                {i18n.language === "pt" ? "PT" : "EN"}
+              </span>
             </button>
           </header>
           <motion.main

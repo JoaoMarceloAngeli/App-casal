@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Upload, Trash2, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useTranslation } from "react-i18next";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface PhotoItem {
   id: string;
@@ -27,29 +28,28 @@ const isVideo = (path: string) => {
 export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "letter"; title: string; subtitle: string }) {
   const { user } = useAuth();
   const { t } = useTranslation();
-  const [items, setItems] = useState<PhotoItem[]>([]);
+  const queryClient = useQueryClient();
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<PhotoItem | null>(null);
 
   const acceptTypes = kind === "photo" ? "image/*,video/*" : "image/*";
 
-  const load = useCallback(async () => {
-    const { data } = await supabase
-      .from("photos")
-      .select("*")
-      .eq("kind", kind)
-      .order("created_at", { ascending: false });
-    if (!data) return;
-    const withUrls = data.map((p) => ({
-      ...p,
-      url: supabase.storage.from("couple-photos").getPublicUrl(p.storage_path).data.publicUrl,
-    }));
-    setItems(withUrls as PhotoItem[]);
-  }, [kind]);
-
-  useEffect(() => {
-    load();
-  }, [load]);
+  const { data: items = [], isLoading } = useQuery({
+    queryKey: ["photos", kind],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("photos")
+        .select("*")
+        .eq("kind", kind)
+        .order("created_at", { ascending: false });
+      if (!data) return [];
+      return data.map((p) => ({
+        ...p,
+        url: supabase.storage.from("couple-photos").getPublicUrl(p.storage_path).data.publicUrl,
+      })) as PhotoItem[];
+    },
+    staleTime: 1000 * 60 * 5, // cache por 5 minutos
+  });
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -74,7 +74,7 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
         files.length === 1 ? "photos.uploadCount_one" : "photos.uploadCount_other",
         { count: files.length }
       ));
-      load();
+      queryClient.invalidateQueries({ queryKey: ["photos", kind] });
     } catch (err: any) {
       toast.error(err.message);
     } finally {
@@ -88,7 +88,7 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
     await supabase.storage.from("couple-photos").remove([item.storage_path]);
     await supabase.from("photos").delete().eq("id", item.id);
     setPreview(null);
-    load();
+    queryClient.invalidateQueries({ queryKey: ["photos", kind] });
   };
 
   return (
@@ -116,7 +116,15 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
         }
       />
 
-      {items.length === 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="polaroid w-full">
+              <div className="aspect-square bg-muted animate-pulse rounded-sm" />
+            </div>
+          ))}
+        </div>
+      ) : items.length === 0 ? (
         <div className="paper-card p-12 text-center">
           <p className="font-script text-2xl text-muted-foreground">
             {kind === "photo" ? t("photos.emptyPhotos") : t("photos.emptyLetters")}
@@ -131,7 +139,7 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
                 key={p.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04 }}
+                transition={{ delay: Math.min(i * 0.02, 0.3) }}
                 onClick={() => setPreview(p)}
                 className={`polaroid block w-full text-left ${
                   i % 3 === 0 ? "rotate-tilt-1" : i % 3 === 1 ? "rotate-tilt-2" : "rotate-tilt-3"
@@ -157,7 +165,7 @@ export function PhotoGallery({ kind, title, subtitle }: { kind: "photo" | "lette
                     <img
                       src={p.url}
                       alt={p.caption ?? ""}
-                      loading="lazy"
+                      loading={i < 6 ? "eager" : "lazy"}
                       className="w-full h-full object-cover"
                     />
                   )}

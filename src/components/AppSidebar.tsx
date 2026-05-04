@@ -1,4 +1,4 @@
-import { Camera, MessageCircle, Mail, MapPin, CalendarHeart, User, Film, Lightbulb, Heart, LogOut, Languages } from "lucide-react";
+import { Camera, MessageCircle, Mail, MapPin, CalendarHeart, User, Film, Lightbulb, Heart, LogOut, Sun, Moon } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -7,22 +7,18 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "next-themes";
 
 export function AppSidebar() {
   const { state, toggleSidebar, isMobile, setOpenMobile } = useSidebar();
   const { profile, signOut } = useAuth();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const { theme, setTheme } = useTheme();
   const collapsed = state === "collapsed";
   const location = useLocation();
 
   function handleNavClick() {
     if (isMobile) setOpenMobile(false);
-  }
-
-  function toggleLang() {
-    const next = i18n.language === "pt" ? "en" : "pt";
-    i18n.changeLanguage(next);
-    localStorage.setItem("lang", next);
   }
 
   const items = [
@@ -92,11 +88,13 @@ export function AppSidebar() {
                 <p className="text-sm font-display truncate">{profile?.display_name}</p>
               </div>
               <button
-                onClick={toggleLang}
-                title={t("sidebar.langSwitch")}
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                title={theme === "dark" ? t("layout.lightMode") : t("layout.darkMode")}
                 className="p-1.5 rounded hover:bg-sidebar-accent"
               >
-                <Languages className="w-4 h-4 text-muted-foreground" />
+                {theme === "dark"
+                  ? <Sun className="w-4 h-4 text-muted-foreground" />
+                  : <Moon className="w-4 h-4 text-muted-foreground" />}
               </button>
               <button onClick={signOut} title={t("sidebar.logout")} className="p-1.5 rounded hover:bg-sidebar-accent">
                 <LogOut className="w-4 h-4 text-muted-foreground" />
@@ -105,11 +103,13 @@ export function AppSidebar() {
           )}
           {collapsed && (
             <button
-              onClick={toggleLang}
-              title={t("sidebar.langSwitch")}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              title={theme === "dark" ? t("layout.lightMode") : t("layout.darkMode")}
               className="p-1.5 rounded hover:bg-sidebar-accent"
             >
-              <Languages className="w-4 h-4 text-muted-foreground" />
+              {theme === "dark"
+                ? <Sun className="w-4 h-4 text-muted-foreground" />
+                : <Moon className="w-4 h-4 text-muted-foreground" />}
             </button>
           )}
         </div>
